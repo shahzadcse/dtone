@@ -1,6 +1,7 @@
 import { computed, reactive } from "vue";
 import * as Request from "@/requests";
 import router from "@/router/index";
+import type { User } from "@/types/interfaces";
 
 const state = reactive({
   username: "",
@@ -19,7 +20,6 @@ const actions = {
   async getUser() {
     const user = await Request.getUser();
     if (user == null) return;
-
     state.username = user.username;
     state.password = user.password;
   },

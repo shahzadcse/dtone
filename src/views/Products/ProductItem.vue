@@ -17,11 +17,13 @@
     <td>{{ product.type }}</td>
     <td>{{ product.description }}</td>
     <td>
-      {{ product.benefits[0].amount.base }} {{ product.benefits[0].unit }}
-      {{ product.benefits[0].type }}
+      {{ benefits?.amount?.base }}
+
+      {{ benefits?.unit }}
+      {{ benefits?.type }}
     </td>
     <td>{{ product.validity?.quantity }} {{ product.validity?.unit }}</td>
-    <td>{{ priceRoundTo }} {{ product.source.unit }}</td>
+    <td>{{ priceRoundTo }} {{ product?.source?.unit }}</td>
     <td>{{ anyPromotion }}</td>
     <td>
       <img
@@ -41,13 +43,7 @@
 import { onMounted, computed } from "vue";
 import { useCartStore } from "../../stores/cart";
 import { storeToRefs } from "pinia";
-
-interface Product {
-  name: string;
-  currency: string;
-  price: string;
-  id: number;
-}
+import type { Product } from "../../types/interfaces";
 const cartStore = useCartStore();
 const { cart } = storeToRefs(cartStore);
 
@@ -90,10 +86,18 @@ const anyPromotion = computed(() => {
     : "No Promo";
 });
 
+const benefits = computed(() => {
+  if (props.product.benefits != undefined) {
+    let ben = props.product.benefits.map((el) => el);
+    return ben[0];
+  }
+});
 const priceRoundTo = computed(() => {
-  let num = props.product?.source?.amount;
-
-  return Math.round(num * 100) / 100;
+  if (props.product?.source?.amount) {
+    let num: number = props.product?.source?.amount;
+    return Math.round(num * 100) / 100;
+  }
+  return;
 });
 
 onMounted(() => {

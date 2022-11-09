@@ -1,7 +1,7 @@
 <template>
   <div class="table-wrapper">
     <h1>Your Cart</h1>
-    <table class="table">
+    <table class="table" v-if="cartShow">
       <thead>
         <tr>
           <th>Product</th>
@@ -30,9 +30,14 @@
         </tr>
       </tbody>
     </table>
-    <div class="checkout">
+    <div class="checkout" v-if="cartShow">
       <div class="total">Total {{ total }}</div>
       <button class="button" @click="toggleModal">Checkout</button>
+    </div>
+    <div v-else>
+      <h2>Your cart is empty!</h2>
+      <router-link to="/">Explore the Products!</router-link><br />
+      <router-link to="/promotions">Explore the Promotions!!</router-link>
     </div>
     <Modal @close="toggleModal" :modalActive="modalActive">
       <div class="modal-content">
@@ -51,7 +56,7 @@ import Modal from "../components/Modal.vue";
 import { computed, onMounted } from "@vue/runtime-core";
 import { useCartStore } from "../stores/cart";
 import { storeToRefs } from "pinia";
-import { DisplayCart } from "../types/interfaces";
+import type { DisplayCart } from "../types/interfaces";
 import { ref } from "vue";
 const cartStore = useCartStore();
 const { cart, displayCart } = storeToRefs(cartStore);
@@ -66,13 +71,17 @@ const toggleModal = () => {
   return { modalActive, toggleModal };
 };
 
+const cartShow = computed(() => {
+  return displayCart.value.length;
+});
+
 const total = computed(() => {
   let currency = null;
   let sum = (displayCart.value as DisplayCart[]).reduce(
     (initialSum: number, item: DisplayCart) => {
       initialSum = initialSum + item.price * item.qty;
       currency = item.currency;
-      return Number.parseFloat(initialSum).toFixed(2);
+      return Number(Number.parseFloat(initialSum.toString()).toFixed(2));
     },
     0
   );

@@ -58,12 +58,14 @@ export const useCartStore = defineStore("cart", {
     displayCartLoad() {
       this.displayCart = (this.cart as Cart).products.map((ci) => {
         const requiredProduct = productData.filter((p) => p.id == ci.id);
-        // if(requiredProduct[0].stock >= ci.qty)
+
         return {
           id: ci.id,
           name: requiredProduct[0].name,
-          price: Number.parseFloat(requiredProduct[0].source?.amount).toFixed(
-            2
+          price: Number(
+            Number.parseFloat(
+              (requiredProduct[0].source?.amount).toString()
+            ).toFixed(2)
           ),
           qty: ci.qty,
           currency: requiredProduct[0].source?.unit,

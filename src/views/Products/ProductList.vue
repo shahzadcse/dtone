@@ -2,6 +2,7 @@
   <div class="table-wrapper">
     <div class="cart-container">
       <router-link to="/cart">
+        <em>Go to Cart</em>
         <img
           alt="Cart"
           class="Cart"
@@ -31,17 +32,19 @@
       <tbody>
         <ProductItem
           v-for="(product, index) in products"
-          :key="index"
           :product="product"
+          :key="index"
         />
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProductItem from "./ProductItem.vue";
 
+//const cartStore = useCartStore();
+//console.log(cartStore);
 export default {
   props: {
     products: {
@@ -56,14 +59,7 @@ export default {
 
   computed: {
     cartUpdate() {
-      let sum = 0;
-      if (localStorage.cart) {
-        const cart = JSON.parse(localStorage.getItem("cart"));
-        cart.products.map((el) => {
-          sum = sum + el.qty;
-        });
-      }
-      return sum;
+      //return displayCart.value.length;
     },
   },
 };
@@ -85,5 +81,12 @@ export default {
   top: 6px;
   right: 7px;
   font-weight: 600;
+}
+.cart-container em {
+  position: absolute;
+  font-size: 0.5rem;
+  top: 0;
+  right: 33px;
+  text-align: right;
 }
 </style>

@@ -12,7 +12,7 @@
     <!-- //End of loading animation -->
   </main>
 </template>
-<script>
+<script lang="ts">
 import PromotionList from "./PromotionList.vue";
 const apiKey = import.meta.env.VITE_SECRET_KEY;
 const apiKeyPass = import.meta.env.VITE_SECRET_PASSWORD;
@@ -41,7 +41,7 @@ export default {
         console.log("response", response);
         const data = await response.json();
         console.log(data);
-        this.promos = data.map((promo) => ({
+        this.promos = data.map((promo: any) => ({
           id: promo.id,
           title: promo.title,
           name: promo.name,

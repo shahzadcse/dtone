@@ -1,57 +1,63 @@
 <template>
   <div class="product-wrapper">
-    <h1>{{ product.name }}</h1>
+    <h1>{{ product?.name }}</h1>
     <div class="card-item">
       <strong>Description</strong>
-      <p>{{ product.description }}</p>
+      <p>{{ product?.description }}</p>
     </div>
     <div class="card-item">
       <strong>Zone</strong>
-      <p>{{ product.availability_zones[0] }}</p>
+      <p>{{ product?.availability_zones[0] }}</p>
     </div>
     <div class="card-item">
       <strong>benefits</strong>
       <p>
-        {{ product.benefits[0].amount.base }} {{ product.benefits[0].unit }}
-        {{ product.benefits[0].type }}
+        {{ product?.benefits[0].amount.base }} {{ product?.benefits[0].unit }}
+        {{ product?.benefits[0].type }}
       </p>
     </div>
     <div class="card-item">
       <strong>Desination</strong>
       <p>
-        {{ product.operator?.country?.name }}
+        {{ product?.operator?.country?.name }}
       </p>
     </div>
     <div class="card-item">
       <strong>Operator</strong>
       <p>
-        {{ product.operator?.name }}
+        {{ product?.operator?.name }}
       </p>
     </div>
     <div class="card-item">
       <strong>Product Value </strong>
-      <p>{{ product.destination?.amount }} {{ product.destination?.unit }}</p>
+      <p>{{ product?.destination?.amount }} {{ product?.destination?.unit }}</p>
     </div>
     <div class="card-item">
       <strong>Product Type </strong>
-      <p>{{ product.type }}</p>
+      <p>{{ product?.type }}</p>
     </div>
     <div class="card-item">
       <strong>Product Rates </strong>
-      <p>{{ priceRoundTo }} {{ product.source.unit }}</p>
+      <p>{{ priceRoundTo }} {{ product?.source.unit }}</p>
     </div>
     <div class="card-item">
       <strong>service</strong>
-      <p>{{ product.service?.name }}</p>
+      <p>{{ product?.service?.name }}</p>
     </div>
     <div class="card-item">
       <strong>validity</strong>
-      <p>{{ product.validity.quantity }} {{ product.validity.unit }}</p>
+      <p>{{ product?.validity.quantity }} {{ product?.validity.unit }}</p>
     </div>
-    <button @click="addToCart">Add to cart</button>
+    <br />
+    <button class="button" @click="addToCart">Add to cart</button>
   </div>
 </template>
 <script>
+import { useCartStore } from "../../stores/cart";
+import { storeToRefs } from "pinia";
+
+const cartStore = useCartStore();
+const { cart } = storeToRefs(cartStore);
 const apiKey = import.meta.env.VITE_SECRET_KEY;
 const apiKeyPass = import.meta.env.VITE_SECRET_PASSWORD;
 
@@ -103,19 +109,20 @@ export default {
       this.loading = false;
     },
     addToCart() {
-      console.log(this.product);
+      cartStore.addToCart({ id: this.product.id, qty: 1 });
     },
   },
   mounted() {
     this.fetchData();
+    cartStore.loadCartInstance();
   },
   computed: {
     priceRoundTo() {
-      let num = this.product.rates.base;
+      let num = this.product?.rates?.base;
       return Math.round(num * 100) / 100;
     },
     anyPromotion() {
-      return this.product.promotions !== null
+      return this.product?.promotions !== null
         ? this.product.promotions
         : "No Promo";
     },

@@ -10,8 +10,8 @@
           {{ balanceRoundTo }}
         </span>
       </h3>
-      <p>with {{ balances[0].holding }} Holding</p>
-      <p>with {{ balances[0].credit_limit }} Credit Limit</p>
+      <p>with {{ balances[0]["holding"] }} Holding</p>
+      <p>with {{ balances[0]["credit_limit"] }} Credit Limit</p>
     </div>
     <!-- //Start of loading animation -->
 
@@ -21,7 +21,8 @@
     <!-- //End of loading animation -->
   </main>
 </template>
-<script>
+<script lang="ts">
+import type { Balances } from "../../types/interfaces";
 const apiKey = import.meta.env.VITE_SECRET_KEY;
 const apiKeyPass = import.meta.env.VITE_SECRET_PASSWORD;
 
@@ -35,8 +36,8 @@ export default {
   },
   computed: {
     balanceRoundTo() {
-      let num = this.balances[0].available;
-      return Math.round(num * 100) / 100 + " " + this.balances[0].unit;
+      let num = this.balances[0]["available"];
+      return Math.round(num * 100) / 100 + " " + this.balances[0]["unit"];
     },
   },
   methods: {
@@ -51,8 +52,8 @@ export default {
         });
         console.log("response", response);
         const data = await response.json();
-        console.log(data);
-        this.balances = data.map((balance) => ({
+
+        (this.balances as Balances[]) = data.map((balance: any) => ({
           id: balance.id,
           available: balance.available,
           holding: balance.holding,

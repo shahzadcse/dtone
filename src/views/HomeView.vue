@@ -12,7 +12,7 @@
     <!-- //End of loading animation -->
   </main>
 </template>
-<script>
+<script lang="ts">
 import ProductList from "./Products/ProductList.vue";
 const apiKey = import.meta.env.VITE_SECRET_KEY;
 const apiKeyPass = import.meta.env.VITE_SECRET_PASSWORD;
@@ -44,7 +44,7 @@ export default {
         const data = await response.json();
         // console.log(data);
 
-        this.products = data.map((product) => ({
+        this.products = data.map((product: any) => ({
           id: product.id,
           name: product.name,
           description: product.description,
