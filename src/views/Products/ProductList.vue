@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import ProductItem from "./ProductItem.vue";
-
+import type { Product } from "../../types/interfaces";
 //const cartStore = useCartStore();
 //console.log(cartStore);
 export default {
@@ -52,7 +52,7 @@ export default {
       required: true,
     },
   },
-
+  data() {},
   components: {
     ProductItem,
   },

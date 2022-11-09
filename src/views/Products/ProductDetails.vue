@@ -49,7 +49,9 @@
       <p>{{ product?.validity.quantity }} {{ product?.validity.unit }}</p>
     </div>
     <br />
-    <button class="button" @click="addToCart">Add to cart</button>
+    <router-link class="button" @click="addToCart" to="/cart"
+      >Add to cart</router-link
+    >
   </div>
 </template>
 <script>
