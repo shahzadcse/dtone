@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   server: {
+    cors: { origin: "*" },
     proxy: {
       "/v1/products": "https://preprod-dvs-api.dtone.com/",
       "/v1/promotions": "https://preprod-dvs-api.dtone.com/",
