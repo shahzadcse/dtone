@@ -48,6 +48,7 @@
 import { onMounted, computed } from "vue";
 import { useCartStore } from "../../stores/cart";
 import { storeToRefs } from "pinia";
+import Swal from "sweetalert2";
 import type { Product } from "../../types/interfaces";
 const cartStore = useCartStore();
 const { cart } = storeToRefs(cartStore);
@@ -116,6 +117,7 @@ onMounted(() => {
 
 function addToCart() {
   cartStore.addToCart({ id: singleProduct.id, qty: 1 });
+  Swal.fire("Product Added!", "Click cart icon to checkout", "success");
 }
 </script>
 
