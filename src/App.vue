@@ -1,14 +1,8 @@
 <template>
   <header>
     <div class="logo-container">
-      <router-link to="/"
-        ><img
-          alt="Vue logo"
-          class="logo"
-          src="@/assets/logo.svg"
-          width="75"
-          height="75"
-        />
+      <router-link to="/" class="logo"
+        ><img alt="Vue logo" src="@/assets/logo.svg" width="75" height="75" />
         <span> MegaSoft Inc.</span></router-link
       >
     </div>

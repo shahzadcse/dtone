@@ -5,25 +5,30 @@
         class="event-link"
         :to="{
           name: 'ProductDetails',
-          params: { id: product.id },
+          params: { id: singleProduct.id },
         }"
       >
-        {{ product.name }}
+        {{ singleProduct.name }}
       </router-link>
     </td>
-    <td>{{ product.operator?.country?.name }}</td>
-    <td>{{ product.operator?.name }}</td>
-    <td>{{ product.destination?.amount }} {{ product.destination?.unit }}</td>
-    <td>{{ product.type }}</td>
-    <td>{{ product.description }}</td>
+    <td>{{ singleProduct.operator?.country?.name }}</td>
+    <td>{{ singleProduct.operator?.name }}</td>
+    <td>
+      {{ singleProduct.destination?.amount }}
+      {{ singleProduct.destination?.unit }}
+    </td>
+    <td>{{ singleProduct.type }}</td>
+    <td>{{ singleProduct.description }}</td>
     <td>
       {{ benefits?.amount?.base }}
 
       {{ benefits?.unit }}
       {{ benefits?.type }}
     </td>
-    <td>{{ product.validity?.quantity }} {{ product.validity?.unit }}</td>
-    <td>{{ priceRoundTo }} {{ product?.source?.unit }}</td>
+    <td>
+      {{ singleProduct.validity?.quantity }} {{ singleProduct.validity?.unit }}
+    </td>
+    <td>{{ priceRoundTo }} {{ singleProduct?.source?.unit }}</td>
     <td>{{ anyPromotion }}</td>
     <td>
       <img
@@ -76,25 +81,30 @@ const { cart } = storeToRefs(cartStore);
 //   },
 // };
 
+// start - fixing error TS2322: Type 'unknown' is not assignable to type 'Product'.
 const props = defineProps<{
-  product: Product;
+  product: unknown;
 }>();
 
+let singleProduct: Product;
+singleProduct = props.product as Product;
+// end - fixing error TS2322: Type 'unknown' is not assignable to type 'Product'.
+
 const anyPromotion = computed(() => {
-  return props.product.promotions !== null
-    ? props.product.promotions
+  return singleProduct.promotions !== null
+    ? singleProduct.promotions
     : "No Promo";
 });
 
 const benefits = computed(() => {
-  if (props.product.benefits != undefined) {
-    let ben = props.product.benefits.map((el) => el);
+  if (singleProduct.benefits != undefined) {
+    let ben = singleProduct.benefits.map((el) => el);
     return ben[0];
   }
 });
 const priceRoundTo = computed(() => {
-  if (props.product?.source?.amount) {
-    let num: number = props.product?.source?.amount;
+  if (singleProduct?.source?.amount) {
+    let num: number = singleProduct?.source?.amount;
     return Math.round(num * 100) / 100;
   }
   return;
@@ -105,7 +115,7 @@ onMounted(() => {
 });
 
 function addToCart() {
-  cartStore.addToCart({ id: props.product.id, qty: 1 });
+  cartStore.addToCart({ id: singleProduct.id, qty: 1 });
 }
 </script>
 
