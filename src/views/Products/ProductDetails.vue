@@ -94,16 +94,13 @@ export default {
       this.error = this.product = null;
       this.loading = true;
       try {
-        const response = await fetch(
-          `https://preprod-dvs-api.dtone.com/v1/products/${this.$route.params.id}`,
-          {
-            method: "get",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + window.btoa(apiKey + ":" + apiKeyPass),
-            },
-          }
-        );
+        const response = await fetch(`/v1/products/${this.$route.params.id}`, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa(apiKey + ":" + apiKeyPass),
+          },
+        });
 
         const data = await response.json();
         this.product = data;

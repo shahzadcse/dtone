@@ -33,16 +33,13 @@ export default {
       try {
         // below line when api server is down
         //  const response = await fetch("../../data.json", {
-        const response = await fetch(
-          "https://preprod-dvs-api.dtone.com/v1/products",
-          {
-            method: "get",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + window.btoa(apiKey + ":" + apiKeyPass),
-            },
-          }
-        );
+        const response = await fetch("/v1/products", {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa(apiKey + ":" + apiKeyPass),
+          },
+        });
         //  console.log("response", response);
         const data = await response.json();
         // console.log(data);
