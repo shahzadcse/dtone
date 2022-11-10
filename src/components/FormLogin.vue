@@ -19,6 +19,9 @@
         required
       />
     </div>
+
+    <p>Demo Username : admin</p>
+    <p>Demo Password : admin</p>
     <div class="text-error">{{ userStore.state.error }}</div>
     <button class="button" type="submit">Login</button>
   </form>
